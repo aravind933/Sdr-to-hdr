@@ -16,7 +16,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: android-actions/setup-android@v3
+      # The runner image already ships the Android SDK; just accept licences
+      # so Gradle can download any missing platform/build-tools.
+      - name: Accept Android SDK licences
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
       # No Gradle wrapper in the project, so install Gradle directly (AGP 8.5 needs 8.7+)
       - uses: gradle/actions/setup-gradle@v4
